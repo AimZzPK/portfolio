@@ -280,6 +280,66 @@
     .contact-area { padding: 2.5rem 1.5rem; }
     footer { flex-direction: column; gap: 0.75rem; text-align: center; }
   }
+
+  .cf-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+  }
+  .cf-field { margin-bottom: 1.25rem; }
+  .cf-label {
+    display: block;
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .cf-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    padding: 0.85rem 1rem;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+  }
+  .cf-input::placeholder { color: var(--muted); }
+  .cf-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(126,232,162,0.08);
+  }
+  .cf-textarea { min-height: 120px; }
+  .cf-btn { width: 100%; margin-top: 0.5rem; font-size: 0.85rem; }
+  .cf-error {
+    font-size: 0.8rem;
+    color: #f87171;
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 3px;
+    background: rgba(248,113,113,0.05);
+  }
+  .cf-success {
+    text-align: center;
+    padding: 2rem;
+  }
+  .cf-success .tick {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .cf-success p { color: var(--muted); font-size: 0.95rem; }
+  .cf-success strong { color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -400,9 +460,26 @@
   <div class="contact-area">
     <div class="section-label" style="justify-content:center; margin-bottom:1rem;">Let's Connect</div>
     <h2>Get In Touch</h2>
-    <p>Have a project, an idea, or just want to say hi? I'm always happy to hear from people who build things.</p>
-    <div class="contact-links">
-      <a href="mailto:idoewaseem@email.com" class="btn btn-primary">Send an Email</a>
+    <p>Have a project, an idea, or just want to say hi? Fill in the form and I'll get back to you.</p>
+
+    <div class="cf-wrap">
+      <div class="cf-field">
+        <label class="cf-label" for="cf-name">Name</label>
+        <input class="cf-input" type="text" id="cf-name" placeholder="Your name" autocomplete="off">
+      </div>
+      <div class="cf-field">
+        <label class="cf-label" for="cf-email">Email</label>
+        <input class="cf-input" type="email" id="cf-email" placeholder="your@email.com" autocomplete="off">
+      </div>
+      <div class="cf-field">
+        <label class="cf-label" for="cf-msg">Message</label>
+        <textarea class="cf-input cf-textarea" id="cf-msg" placeholder="What's on your mind?"></textarea>
+      </div>
+      <div id="cf-error" class="cf-error" style="display:none"></div>
+      <button class="btn btn-primary cf-btn" id="cf-submit" onclick="submitForm()">Send Message</button>
+    </div>
+
+    <div class="contact-links" style="margin-top:2rem;">
       <a href="https://youtube.com/@WIdoe-89" target="_blank" rel="noopener" class="btn btn-ghost">Youtube</a>
       <a href="https://discord.gg/xaG54vnxCG" target="_blank" rel="noopener" class="btn btn-ghost">Discord</a>
     </div>
@@ -430,6 +507,41 @@
     bar.style.animationPlayState = 'paused';
     observer.observe(bar);
   });
+
+  function submitForm() {
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const msg = document.getElementById('cf-msg').value.trim();
+    const errEl = document.getElementById('cf-error');
+
+    errEl.style.display = 'none';
+
+    if (!name || !email || !msg) {
+      errEl.textContent = 'Please fill in all fields.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Build mailto link with form data
+    const subject = encodeURIComponent('Message from ' + name + ' via Portfolio');
+    const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
+    window.location.href = 'mailto:idoewaseem24@gmail.com?subject=' + subject + '&body=' + body;
+
+    // Show success state
+    document.querySelector('.cf-wrap').innerHTML = `
+      <div class="cf-success">
+        <span class="tick">✓</span>
+        <p>Your email client should have opened.<br>
+        If not, email me directly at <strong>idoewaseem24@gmail.com</strong></p>
+      </div>
+    `;
+  }
+
 </script>
 
 </body>
