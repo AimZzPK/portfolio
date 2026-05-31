@@ -48,7 +48,8 @@
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     padding: 7rem 2rem 4rem;
   }
 
@@ -67,15 +68,14 @@
     opacity: 0.4;
   }
 
-  /* SLIDER — z-index -1, fills the whole hero, centered */
-  .slider-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+  /* SLIDER — below text */
+  .hero-right {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
+    margin-top: 3rem;
   }
   .slider-scene {
     width: 160px;
@@ -286,8 +286,8 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
 
-  <!-- SLIDER in background (z-index:1, opacity low) -->
-  <div class="slider-bg">
+  <!-- SLIDER below text -->
+  <div class="hero-right">
     <div class="slider-scene">
       <div class="slider-track">
         <div class="slider-item" style="--pos:1">
@@ -295,22 +295,22 @@
           <span class="slide-name">Jarvis Discord bot</span>
         </div>
         <div class="slider-item" style="--pos:2">
-          <img src="portfolio.jpg" alt="Personal Portfolio">
-          <span class="slide-name">Personal Portfolio</span>
+          <img src="portfolio.jpg" alt="Portfolio website">
+          <span class="slide-name">Portfolio website</span>
         </div>
         <div class="slider-item" style="--pos:3">
-          <img src="logo.png" alt="Logo">
-          <span class="slide-name">Logo</span>
+          <img src="logo.png" alt="Logo design">
+          <span class="slide-name">Logo design</span>
         </div>
         <div class="slider-item" style="--pos:4">
-          <img src="coming-soon.jpg" alt="Coming Soon">
-          <span class="slide-name">Coming Soon</span>
+          <img src="code.avif" alt="age 14">
+          <span class="slide-name">Age 14</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- TEXT on top (z-index:2) -->
+  <!-- TEXT -->
   <div class="hero-content">
     <div class="hero-tag fade-up">Unavailable for collaboration</div>
     <h1 class="fade-up delay-1">
